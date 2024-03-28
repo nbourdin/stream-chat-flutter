@@ -58,24 +58,22 @@ class ChannelApi {
     bool presence = false,
     PaginationParams paginationParams = const PaginationParams(),
   }) async {
-    final response = await _client.get(
+    final response = await _client.post(
       '/channels',
-      queryParameters: {
-        'payload': jsonEncode({
-          // default options
-          'state': state,
-          'watch': watch,
-          'presence': presence,
+      data: {
+        // default options
+        'state': state,
+        'watch': watch,
+        'presence': presence,
 
-          // passed options
-          if (sort != null) 'sort': sort,
-          if (filter != null) 'filter_conditions': filter,
-          if (memberLimit != null) 'member_limit': memberLimit,
-          if (messageLimit != null) 'message_limit': messageLimit,
+        // passed options
+        if (sort != null) 'sort': sort,
+        if (filter != null) 'filter_conditions': filter,
+        if (memberLimit != null) 'member_limit': memberLimit,
+        if (messageLimit != null) 'message_limit': messageLimit,
 
-          // pagination
-          ...paginationParams.toJson(),
-        }),
+        // pagination
+        ...paginationParams.toJson(),
       },
     );
     return QueryChannelsResponse.fromJson(response.data);
